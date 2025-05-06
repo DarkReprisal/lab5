@@ -116,7 +116,7 @@ architecture top_basys3_arch of top_basys3 is
     signal w_segment : std_logic_vector (6 downto 0);
     signal w_mux_sel : std_logic_vector(1 downto 0);
     signal w_positive: std_logic_vector(6 downto 0) := "1111111";
-    signal w_negative_sign : std_logic_vector(6 downto 0) := "01111111";
+    signal w_negative_sign : std_logic_vector(6 downto 0) := "0111111";
     
 begin
 	-- PORT MAPS ----------------------------------------
