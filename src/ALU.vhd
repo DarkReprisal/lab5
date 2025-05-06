@@ -54,7 +54,8 @@ signal B_first : std_logic_vector(3 downto 0);
 signal B_second : std_logic_vector (3 downto 0);
 signal B_subtraction : std_logic_vector(7 downto 0);
 signal sum_first : std_logic_vector(3 downto 0);
-signal sum_second: std_logic_vector(7 downto 0);
+signal sum_second: std_logic_vector(3 downto 0);
+signal sum_final: std_logic_vector(7 downto 0);
 
 signal carry_first : std_logic;
 signal carry_second : std_logic;
@@ -83,7 +84,7 @@ ripple_adder_first : ripple_adder port map(
     Cout => carry_first
     );
 
-ripple_adder_second : rippler_adder port map(
+ripple_adder_second : ripple_adder port map(
     A => A_second,
     B => B_second,
     Cin => carry_first,
@@ -94,4 +95,22 @@ ripple_adder_second : rippler_adder port map(
 sum_final(3 downto 0) <= sum_first;
 sum_final(7 downto 4) <= sum_second;
 
+with i_op select
+result <= sum_final when "000",
+        sum_final when "001",
+        (B_subtraction and i_A) when "010",
+        (B_subtraction or i_A) when "011",
+        "00000000" when others;
+        
+o_flags(3) <= result(7);
+o_flags(2) <= '1' when result = "00000000" else '0';
+o_flags(1) <= carry_second and (not i_op(1));
+
+
+overflow_alu_op <= not i_op(1);
+overflow_xnor <= not(i_A(7) xor i_B(7) xor i_op(0));
+overflow_xor <= i_A(7) xor result(7);
+overflow_xnor_and_xor <= overflow_xnor and overflow_xor;
+o_flags(0) <= overflow_xnor_and_xor and overflow_alu_op;
+o_result <= result;
 end Behavioral;
