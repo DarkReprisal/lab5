@@ -38,10 +38,13 @@ entity controller_fsm is
 end controller_fsm;
 
 architecture FSM of controller_fsm is
-type state is (clear,reg1,reg2,answer);
-signal current_state,next_state: state;
+
+type state is (clear, reg1, reg2, answer);
+
+signal current_state, next_state: state;
 
 begin
+
 next_state <= state'succ(current_state) when (i_adv = '1');
 
 with current_state select
