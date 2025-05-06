@@ -172,7 +172,7 @@ begin
 	begin
 	if rising_edge(w_cycle(1)) then 
 	   if w_reset_fsm = '1' then
-	       w_a_register <= "0000000";
+	       w_a_register <= "00000000";
 	   else
 	       w_a_register <= sw;
 	   end if;
@@ -183,7 +183,7 @@ begin
 	begin
 	if rising_edge(w_cycle(2)) then 
 	   if w_reset_fsm = '1' then
-	       w_a_register <= "0000000";
+	       w_a_register <= "00000000";
 	   else
 	       w_a_register <= sw;
 	   end if;
